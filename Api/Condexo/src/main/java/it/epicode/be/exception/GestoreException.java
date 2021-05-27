@@ -14,7 +14,7 @@ public class GestoreException extends ResponseEntityExceptionHandler {
 
 	
 	@ExceptionHandler(RichiestaNotSupportedException.class)
-	protected ResponseEntity<ErroreMessaggio> gestioneEccezioneLingua (RichiestaNotSupportedException ex){
+	protected ResponseEntity<ErroreMessaggio> gestioneEccezione (RichiestaNotSupportedException ex){
 		
 		ErroreMessaggio errP = new ErroreMessaggio();
 		errP.setStato(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -60,15 +60,12 @@ public class UtenteController {
 			Optional<Utente> result = utenteService.getByNome(nome);
 			if (result.isEmpty()) {
 				return new ResponseEntity<Utente>(HttpStatus.NOT_FOUND);
-			}else {
+			} else {
 				return new ResponseEntity<Utente>(result.get(), HttpStatus.OK);
 			}
 		} catch (Exception e) {
-			throw new RichiestaNotSupportedException("Utente non disponibile", Utente.class,e);
+			throw new RichiestaNotSupportedException("Utente non disponibile", Utente.class, e);
 		}
-		
-
-		
 
 	}
 
@@ -77,18 +74,17 @@ public class UtenteController {
 	public ResponseEntity<List<Utente>> utenteAll() {
 		try {
 			List<Utente> listaUtente = utenteService.getUtenteAll();
-			if(listaUtente.isEmpty()) {
+			if (listaUtente.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}else {
+			} else {
 				return new ResponseEntity<>(listaUtente, HttpStatus.OK);
 			}
 		} catch (Exception e) {
-			throw new RichiestaNotSupportedException("Non e presente nessuna lista", Utente.class,e);
+			throw new RichiestaNotSupportedException("Non e presente nessuna lista", Utente.class, e);
 		}
-		
+
 	}
 
-	
 // Post usato per creare un utente tramite il body
 	@PostMapping(value = "/creaUtente", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Utente> creaUtente(@RequestBody Utente utente) {
@@ -96,7 +92,7 @@ public class UtenteController {
 			Utente cUtente = utenteService.creaUtente(utente);
 			return new ResponseEntity<>(cUtente, HttpStatus.CREATED);
 		} catch (Exception e) {
-			throw new RichiestaNotSupportedException("Utente non creato", Utente.class,e);
+			throw new RichiestaNotSupportedException("Utente non creato", Utente.class, e);
 		}
 
 	}
@@ -113,7 +109,7 @@ public class UtenteController {
 			}
 
 		} catch (Exception e) {
-			throw new RichiestaNotSupportedException("Utente non aggiornato", Utente.class,e);
+			throw new RichiestaNotSupportedException("Utente non aggiornato", Utente.class, e);
 
 		}
 
@@ -125,9 +121,9 @@ public class UtenteController {
 		try {
 			utenteService.deleteUtente(id);
 			return new ResponseEntity<String>("L'utente selezionato e stato eliminato ", HttpStatus.NO_CONTENT);
-			
+
 		} catch (Exception e) {
-			throw new RichiestaNotSupportedException("Utente non eliminato", Utente.class,e);
+			throw new RichiestaNotSupportedException("Utente non eliminato", Utente.class, e);
 		}
 
 	}
