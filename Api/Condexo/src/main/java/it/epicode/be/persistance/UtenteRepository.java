@@ -11,6 +11,10 @@ public interface UtenteRepository extends JpaRepository<Utente, Long> {
 	
 
 	public Optional<Utente> findByNome(String nome);
+
+	
+
+	
 	
 
 }

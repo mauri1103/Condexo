@@ -27,8 +27,8 @@ public class UtenteService {
 		return utenteRepo.save(utente);
 
 	}
-	public Utente updateUtente(Utente utente) {
-		return utenteRepo.save(utente);
+	public Utente updateUtente(Long id) {
+		return utenteRepo.getById(id);
 		
 	}
 	public void deleteUtente(Long id) {
@@ -36,5 +36,9 @@ public class UtenteService {
 		
 		
 	}
+	public Utente aggiorna(Utente ute) {
+		return utenteRepo.save(ute);
+	}
+	
 	
 }

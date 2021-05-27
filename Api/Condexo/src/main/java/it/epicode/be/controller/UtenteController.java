@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.epicode.be.exception.RichiestaNotSupportedException;
 import it.epicode.be.model.Utente;
+import it.epicode.be.persistance.UtenteRepository;
 import it.epicode.be.service.UtenteService;
 
 @RestController
@@ -97,23 +99,32 @@ public class UtenteController {
 
 	}
 
-// Put per aggiornare un utente
-	@PutMapping(value = "/aggiornaUtente", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Utente> aggiornaUtente(@RequestBody Utente utente) {
+// Put per aggiornare un utente, pasando un body
+	/*
+	 * {
+    "id":1,
+    "users": "ilsupremo",
+    "nome": "roberto",
+    "cognome": "Biaggio6",
+    "data_di_nascita": "1980-10-16",
+    "email": "Alessio6@gmail.com"}
+    */	
+	@RequestMapping(value = "/aggiorna", method = RequestMethod.PUT)
+	public ResponseEntity<Utente> aggiornaUtente( @RequestBody Utente utente) {         
 		try {
-			Utente aggUtente = utenteService.updateUtente(utente);
+			Utente aggUtente = utenteService.aggiorna(utente);
 			if (aggUtente != null) {
-				return new ResponseEntity<>(aggUtente, HttpStatus.OK);
+				return new ResponseEntity<>(aggUtente, HttpStatus.ACCEPTED);
 			} else {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
 
 		} catch (Exception e) {
 			throw new RichiestaNotSupportedException("Utente non aggiornato", Utente.class, e);
-
 		}
 
-	}
+	  }
+
 
 //  Delete per eliminare un utente atraverso il suo Id
 	@DeleteMapping(value = "/eliminaUtente/{id}")
