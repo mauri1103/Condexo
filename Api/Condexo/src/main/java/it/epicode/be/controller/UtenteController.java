@@ -136,7 +136,21 @@ public class UtenteController {
 		} catch (Exception e) {
 			throw new RichiestaNotSupportedException("Utente non eliminato", Utente.class, e);
 		}
+		
 
+//	}@GetMapping("/nomeUtente/{data}") // Recupero l'utente tramite il nome
+//	public ResponseEntity<Utente> perData(@PathVariable(required = true) LocalDate before) {
+//		try {
+//			Optional<Utente> result = utenteService.getPerEta(before);
+//			if (result.isEmpty()) {
+//				return new ResponseEntity<Utente>(HttpStatus.NOT_FOUND);
+//			} else {
+//				return new ResponseEntity<>(result.get(), HttpStatus.OK);
+//			}
+//		} catch (Exception e) {
+//			throw new RichiestaNotSupportedException("Utente non disponibile", Utente.class, e);
+//		}
+//
 	}
 
 }
