@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import it.epicode.be.exception.RichiestaNotSupportedException;
 import it.epicode.be.model.Utente;
 import it.epicode.be.service.UtenteService;
 
@@ -54,24 +56,39 @@ public class UtenteController {
 
 	@GetMapping("/nomeUtente/{nome}") // Recupero l'utente tramite il nome
 	public ResponseEntity<Utente> nomeUtente(@PathVariable(required = true) String nome) {
-		Optional<Utente> result = utenteService.getByNome(nome);
-
-		if (result.isPresent()) {
-			return new ResponseEntity<Utente>(result.get(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<Utente>(HttpStatus.NOT_FOUND);
+		try {
+			Optional<Utente> result = utenteService.getByNome(nome);
+			if (result.isEmpty()) {
+				return new ResponseEntity<Utente>(HttpStatus.NOT_FOUND);
+			}else {
+				return new ResponseEntity<Utente>(result.get(), HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			throw new RichiestaNotSupportedException("Utente non disponibile", Utente.class,e);
 		}
+		
+
+		
 
 	}
 
 //  Get usata per richiamare la lista completa degli utenti 
 	@GetMapping("/utenteAll")
 	public ResponseEntity<List<Utente>> utenteAll() {
-		List<Utente> listaUtente = utenteService.getUtenteAll();
-		ResponseEntity<List<Utente>> risposta = new ResponseEntity<>(listaUtente, HttpStatus.OK);
-		return risposta;
+		try {
+			List<Utente> listaUtente = utenteService.getUtenteAll();
+			if(listaUtente.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}else {
+				return new ResponseEntity<>(listaUtente, HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			throw new RichiestaNotSupportedException("Non e presente nessuna lista", Utente.class,e);
+		}
+		
 	}
 
+	
 // Post usato per creare un utente tramite il body
 	@PostMapping(value = "/creaUtente", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Utente> creaUtente(@RequestBody Utente utente) {
@@ -79,7 +96,7 @@ public class UtenteController {
 			Utente cUtente = utenteService.creaUtente(utente);
 			return new ResponseEntity<>(cUtente, HttpStatus.CREATED);
 		} catch (Exception e) {
-			throw new WebServerException("Utente non creato", e);
+			throw new RichiestaNotSupportedException("Utente non creato", Utente.class,e);
 		}
 
 	}
@@ -96,7 +113,7 @@ public class UtenteController {
 			}
 
 		} catch (Exception e) {
-			throw new WebServerException("Utente non aggiornato", e);
+			throw new RichiestaNotSupportedException("Utente non aggiornato", Utente.class,e);
 
 		}
 
@@ -108,8 +125,9 @@ public class UtenteController {
 		try {
 			utenteService.deleteUtente(id);
 			return new ResponseEntity<String>("L'utente selezionato e stato eliminato ", HttpStatus.NO_CONTENT);
+			
 		} catch (Exception e) {
-			throw new WebServerException("Utente non eliminato", e);
+			throw new RichiestaNotSupportedException("Utente non eliminato", Utente.class,e);
 		}
 
 	}
