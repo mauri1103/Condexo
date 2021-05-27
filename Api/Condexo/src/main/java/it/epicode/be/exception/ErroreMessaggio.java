@@ -8,7 +8,7 @@ import lombok.Data;
 public class ErroreMessaggio {
 	
 	private String messaggio; 
-	private String developer_reference = "Contattare lo svillupatore";
+	private String developer_reference = "Contattare lo sviluppatore";
 	private HttpStatus stato;
 
 }
