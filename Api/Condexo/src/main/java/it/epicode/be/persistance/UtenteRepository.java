@@ -14,7 +14,6 @@ public interface UtenteRepository extends JpaRepository<Utente, Long> {
 
 	Optional<Utente> findByNome(String nome);
 	
-//	Optional<Utente> findByDataDiNascitaBefore(LocalDate before);
 
 	
 

@@ -40,10 +40,6 @@ public class UtenteService {
 	public Utente aggiorna(Utente ute) {
 		return utenteRepo.save(ute);
 	}
-//	public Optional<Utente> getPerEta(LocalDate before){
-//		return utenteRepo.findByDataDiNascitaBefore(before);
-//		
-//	}
-	
+
 	
 }
